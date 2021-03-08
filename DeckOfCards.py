@@ -48,10 +48,3 @@ class Deck():
         else:
             print("out of cards")
             return None
-
-deck = Deck()
-
-cards = deck.hand_cards(52)
-
-for c in cards:
-    print(c.show())
