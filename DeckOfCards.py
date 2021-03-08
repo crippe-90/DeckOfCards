@@ -1,6 +1,19 @@
+#author: Christoffer Norell
+#contact: christoffernorell@yahoo.se
+
+#This is a simple simulator of a deck of cards I made for fun.
+#The values in the dictionaries are there for better comparison during games.
+
+
 import random
-colors = ['Hearts','Diamonds','Clubs','Spades']
-values = [2,3,4,5,6,7,8,9,10,'Jack', 'Queen', 'King', 'Ace']
+#Using dictionaries to represent values.
+#The color-values was taken from bridge-order:
+#http://pokerterms.com/bridge-order.html
+
+colors = [{'Hearts': 0 },{'Diamonds': 1},{'Clubs': 2},{'Spades':3}]
+values = [{'Two':2},{'Three': 3},{'Four':4},{'Five':5},{'Six': 6},{'Seven': 7}, {'Eight': 8}, {'Nine': 9} , {'Ten': 10},{'Jack': 11} , {'Queen':12}, {'King':13}
+, {'Ace':14}]
+
 
 class Card():
     def __init__(self,value,color):
@@ -9,6 +22,7 @@ class Card():
 
     def show(self):
         return (self.color, self.value)
+    
 
 
 class Deck():
@@ -36,7 +50,6 @@ class Deck():
             return None
 
 deck = Deck()
-deck.shuffle()
 
 cards = deck.hand_cards(52)
 
