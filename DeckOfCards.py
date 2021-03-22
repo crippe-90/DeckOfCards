@@ -16,21 +16,30 @@ values = [{'Two':2},{'Three': 3},{'Four':4},{'Five':5},{'Six': 6},{'Seven': 7}, 
 
 
 class Card():
-    def __init__(self,value,color):
+    def __init__(self,color,value):
         self.color = color
         self.value = value
 
     def show(self):
-        return (self.color, self.value)
+        return list(self.color.keys())[0] + ' ' + list(self.value.keys())[0]
+
+    def get_value(self):
+        return list(self.value.values())[0]
+    
+    def get_color_value(self):
+        return list(self.color.value())[0]
     
 
 
 class Deck():
     def __init__(self):
         self.deck = []
+        self.valid_cards = []
         for x in range(len(colors)):
             for y in range(len(values)):
-                self.deck.append(Card(colors[x],values[y]))
+                card = Card(colors[x],values[y])
+                self.deck.append(card)
+                self.valid_cards.append(card.show().lower())
     
     def shuffle(self):
         random.shuffle(self.deck)
@@ -49,9 +58,3 @@ class Deck():
             print("out of cards")
             return None
 
-deck = Deck()
-
-cards = deck.hand_cards(52)
-
-for c in cards:
-    print(c.show())

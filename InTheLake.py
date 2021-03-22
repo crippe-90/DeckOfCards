@@ -11,8 +11,6 @@
 #If you get out of cards you pick 7 new ones, if the lake is empty you have to wait for the next game.
 
 #Rules on swedish: https://www.spelregler.org/finns-i-sjon/
-import DeckOfCards
-
 class Player():
     def __init__(self, cards=[]):
         self.cards = cards
@@ -44,9 +42,11 @@ class Player():
                 self.fours+=1
         return self.fours
 
-    #return cards asked for by the oponent
+    #returns the sorted hand.
+    def get_sorted_hand(self):
+        return self.sorted_hand
     
-    #Not working properly
+    #return cards asked for by the oponent
     def give_cards(self, cards_value=0):
         for cards in self.sorted_hand:
             if len(cards)>1:
@@ -55,6 +55,7 @@ class Player():
                     self.sorted_hand.remove(cards)
                     return tmp
 
+    #requesting cards from the oponent
     def get_cards(self, value):
         tmp = self.oponent.give_cards(value)
         for cards in self.sorted_hand:
@@ -89,38 +90,10 @@ class OponentAI(Player):
                 return cards
         return self.sorted_hand[0]
 
+    #requesting cards from player
     def request_cards(self):
         cards = self.get_cards_closest_to_four()
         self.oponent.get_cards(cards[0].cards_value())
-
-
-
-
-deck = DeckOfCards.Deck()
-deck.shuffle()
-
-player = Player(deck.hand_cards(26))
-oponent = OponentAI(deck.hand_cards(26))
-
-player.shake_hand(oponent)
-oponent.shake_hand(player)
-
-player.get_cards(2)
-
-for cards in player.sorted_hand:
-    if len(cards)>1:
-        for card in cards:
-            if card is not None:
-                print(card.show())
-
-for cards in oponent.sorted_hand:
-    if len(cards)>1:
-        for card in cards:
-            if card is not None:
-                print(card.show())
-
-        
-
 
 
 
