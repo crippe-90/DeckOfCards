@@ -17,12 +17,10 @@ class Player():
         self.fours = 0
         self.sorted_hand = []
         self.oponent = None
-
         self.sort_cards()
 
     def shake_hand(self,oponent):
         self.oponent = oponent
-
 
     #Sorting cards in the beginning because we want to have four of each value.
     def sort_cards(self):
@@ -42,18 +40,20 @@ class Player():
                 self.fours+=1
         return self.fours
 
+    def get_hand(self):
+        return self.cards
     #returns the sorted hand.
     def get_sorted_hand(self):
         return self.sorted_hand
     
     #return cards asked for by the oponent
-    def give_cards(self, cards_value=0):
-        for cards in self.sorted_hand:
-            if len(cards)>1:
-                if cards[0].get_value()==cards_value:
-                    tmp = cards
-                    self.sorted_hand.remove(cards)
-                    return tmp
+    def give_cards(self, cards_to_give=""):
+        tmp = []
+        for card in self.cards:
+            if card.show().split(' ')[1].lower()==cards_to_give.lower():
+                tmp.append(card)
+                self.cards.remove(card)
+        return tmp
 
     #requesting cards from the oponent
     def get_cards(self, value):
@@ -64,18 +64,16 @@ class Player():
                     cards.append(tmp)
                     return
                 else:
-                    print("asking for cards not in hand.")
-                    return
-            
-        print("does not have card")
+                    print("Asking for cards not in hand.")
+                    return        
+        print("Does not have card")
 
 
 
 
 class OponentAI(Player):
     def __init__(self,cards=[]):
-        self.cards = cards
-        Player.__init__(self, self.cards)    
+        Player.__init__(self, cards)    
 
     #returning the cards that are closest to four
     def get_cards_closest_to_four(self):
@@ -89,7 +87,21 @@ class OponentAI(Player):
             if len(cards)==2:
                 return cards
         return self.sorted_hand[0]
-
+    
+    #hands the requested cards if they are in oponents hand.
+    def hand_cards(self, requested_cards):
+        cards_to_give = []
+        card_not_found = True
+        for card in self.cards:
+            if requested_cards.lower()==card.show().split(' ')[1].lower():
+                print("Oponent: I have it")
+                card_not_found = False
+                cards_to_give.append(self.give_cards(card.show().split(' ')[1].lower()))
+                
+        if card_not_found:
+            print("I don't have it.")
+        return cards_to_give
+    
     #requesting cards from player
     def request_cards(self):
         cards = self.get_cards_closest_to_four()
