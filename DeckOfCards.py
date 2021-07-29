@@ -30,7 +30,6 @@ class Card():
         return list(self.color.value())[0]
     
 
-
 class Deck():
     def __init__(self):
         self.deck = []
@@ -43,6 +42,9 @@ class Deck():
     
     def shuffle(self):
         random.shuffle(self.deck)
+    
+    def empty(self):
+        return len(self.deck)==0
     
     def hand_card(self):
         card = self.deck.pop()
