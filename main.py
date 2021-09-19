@@ -1,4 +1,4 @@
-import InTheLakeGame
+from InTheLake import *
 
 def main():
     game = InTheLakeGame.InTheLakeGame()

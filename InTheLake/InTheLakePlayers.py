@@ -4,6 +4,7 @@
 #Classes for player and oponent in the card "In the Lake".
 import random
 
+#Player class
 class Player():
     def __init__(self, cards=[]):
         self.cards = cards
@@ -48,6 +49,7 @@ class Player():
         return cards_to_give
 
 
+#OponentAI, needs to get smarter and more random.
 class OponentAI(Player):
     def __init__(self,cards=[]):
          Player.__init__(self, cards)
@@ -58,7 +60,7 @@ class OponentAI(Player):
             if len(sorted_hand[x])==4:
                 self.sorted_hand.pop(x)
 
-    #returning the cards that are closest to four
+    #Returning the cards that are closest to four.
     def get_cards_closest_to_four(self):
         for cards in self.sorted_hand:
             if len(cards)==3:
