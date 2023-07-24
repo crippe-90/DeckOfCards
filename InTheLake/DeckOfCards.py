@@ -1,5 +1,4 @@
-#author: Christoffer Norell
-#contact: christoffernorell@yahoo.se
+#author: crippe-90 @github
 
 #This is a simple simulator of a deck of cards I made for fun.
 #The values in the dictionaries are there for better comparison during games.

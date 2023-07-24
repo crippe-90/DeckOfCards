@@ -1,5 +1,4 @@
-#author: Christoffer Norell
-#contact: christoffernorell@yahoo.se
+#author: crippe-90 @github
 
 #Classes for player and oponent in the card "In the Lake".
 import random

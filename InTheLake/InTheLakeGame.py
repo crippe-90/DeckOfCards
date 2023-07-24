@@ -1,5 +1,4 @@
-#author: Christoffer Norell
-#contact: christoffernorell@yahoo.se
+#author: crippe-90 @github
 
 #A text version of a swedish card game for children. Currently supporting 1 player + computer.
 #Original title in swedish is "Finns i sjön".
@@ -16,10 +15,8 @@
 
 from .InTheLakePlayers import *
 from .DeckOfCards import Deck
-from colorama import Fore, Back
 
-
-class InTheLakeGame():
+class Game():
     
     def __init__(self):
         #Get a new shuffled deck of cards.
@@ -34,10 +31,10 @@ class InTheLakeGame():
 
     #Shows the current cards of the hand
     def show_current_cards(self, who, hand):
-        print(Fore.GREEN + who + " currently have theese cards:")
+        print(who + " currently have theese cards:")
         cards_in_hand = ""
         for card in hand:
-            cards_in_hand += card.show() + ", "
+            cards_in_hand += card.show() + "\n"
         print(cards_in_hand)
 
     #Asks the computer for a card
@@ -77,7 +74,7 @@ class InTheLakeGame():
             self.game_running = False
             return
         card_to_ask_for = cards_to_ask_for[0].show().split(' ')[1]
-        print(Fore.RED + "Oponent asks for: " + card_to_ask_for)
+        print("Oponent asks for: " + card_to_ask_for)
         self.check_if_player_has_card(card_to_ask_for)
         
     #Method-functionality should be moved to player-class
@@ -95,8 +92,9 @@ class InTheLakeGame():
     #Run the game.
     def main_loop(self):
         turn = 1
+        print("\n****** GAME STARTS ******\n")
         while(not self.deck.empty() and self.game_running is True):
-            print(Fore.BLUE + "****** NEW TURN ******")
+            print("\n****** NEW TURN ******\n")
             print("TURN " + str(turn))
             self.show_current_cards("Player", self.player.get_hand())
             #self.show_current_cards("Oponent",self.oponent.get_hand())
@@ -107,13 +105,16 @@ class InTheLakeGame():
                 self.oponent.sort_cards()
                 self.referee.count_points()
             print("******")
+            input("Now it is oponents turn, press enter to continue.")
             self.show_current_cards("Player",self.player.get_hand())
             #self.show_current_cards("Oponent",self.oponent.get_hand())
             
             if self.deck.empty() is False:
                 self.oponent_ask_for_card()
+                input("Oponent is done, press enter to continue")
                 self.player.sort_cards()
                 self.oponent.sort_cards()
+                self.referee.count_points()
             turn += 1
         self.referee.declare_winner()
 
@@ -132,14 +133,14 @@ class Referee():
         oponent_sorted_hand = self.oponent.get_sorted_hand()
         for cards in player_sorted_hand:
             if len(cards)==4:
-                print(Fore.RESET + "POINTS TO PLAYER!")
+                print("POINTS TO PLAYER!")
                 self.player_points += 1
                 self.player.sorted_hand.remove(cards)
                 for card in cards:
                     self.player.cards.remove(card)
         for cards in oponent_sorted_hand:
             if len(cards)==4:
-                print(Fore.RESET + "POINTS TO OPONENT!")
+                print("POINTS TO OPONENT!")
                 self.oponent_points+=1
                 self.oponent.sorted_hand.remove(cards)
                 for card in cards:
@@ -148,14 +149,14 @@ class Referee():
        
 
     def declare_winner(self):
-        text = "The winnes is: "
+        text = "The winnes is... "
         if self.player_points > self.oponent_points:
-            text += "Player! " +  str(self.player_points) + ":" + str(self.oponent_points)
+            text += "Player! \nPlayer: " +  str(self.player_points) + " Oponent: " + str(self.oponent_points)
 
         elif self.player_points < self.oponent_points:
-            text += "Oponent!"  +  str(self.player_points) + ":" + str(self.oponent_points)
+            text += "Oponent! \nPlayer: "  +  str(self.player_points) + " Oponent:" + str(self.oponent_points)
         else:
-            text = "It's a draw!"
-        print(Fore.RESET + "Referee: " + text)
+            text = "It's a draw!\n Player gets: " + str(self.player_points) + " Oponent gets: " + str(self.oponent_points)
+        print("Referee: " + text)
 
 
