@@ -1,6 +1,6 @@
 #author: crippe-90 @github
 
-#Classes for player and oponent in the card "In the Lake".
+#Classes for player and oponent in the game "In the Lake".
 import random
 
 #Player class

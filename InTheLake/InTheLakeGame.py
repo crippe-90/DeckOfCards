@@ -16,8 +16,11 @@
 from .InTheLakePlayers import *
 from .DeckOfCards import Deck
 
+PRINT_GREEN = "\033[1;32;40m"
+PRINT_RED = "\033[1;31;40m"
+PRINT_CYAN = "\033[1;36;40m"
+
 class Game():
-    
     def __init__(self):
         #Get a new shuffled deck of cards.
         self.deck = Deck()
@@ -92,10 +95,12 @@ class Game():
     #Run the game.
     def main_loop(self):
         turn = 1
+        print(PRINT_CYAN)
         print("\n****** GAME STARTS ******\n")
         while(not self.deck.empty() and self.game_running is True):
             print("\n****** NEW TURN ******\n")
             print("TURN " + str(turn))
+            print(PRINT_GREEN)
             self.show_current_cards("Player", self.player.get_hand())
             #self.show_current_cards("Oponent",self.oponent.get_hand())
             
@@ -104,14 +109,16 @@ class Game():
                 self.player.sort_cards()
                 self.oponent.sort_cards()
                 self.referee.count_points()
+            print(PRINT_RED)
             print("******")
-            input("Now it is oponents turn, press enter to continue.")
-            self.show_current_cards("Player",self.player.get_hand())
+            #input("Now it is oponents turn, press enter to continue.")
+            #self.show_current_cards("Player",self.player.get_hand())
             #self.show_current_cards("Oponent",self.oponent.get_hand())
             
             if self.deck.empty() is False:
                 self.oponent_ask_for_card()
-                input("Oponent is done, press enter to continue")
+                print(PRINT_CYAN)
+                input("Oponent is done, press enter to continue in to next turn.")
                 self.player.sort_cards()
                 self.oponent.sort_cards()
                 self.referee.count_points()
@@ -149,6 +156,7 @@ class Referee():
        
 
     def declare_winner(self):
+        print(PRINT_CYAN)
         text = "The winnes is... "
         if self.player_points > self.oponent_points:
             text += "Player! \nPlayer: " +  str(self.player_points) + " Oponent: " + str(self.oponent_points)
