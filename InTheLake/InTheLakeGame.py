@@ -16,10 +16,28 @@
 from .InTheLakePlayers import *
 from .DeckOfCards import Deck
 
+# Constants for the different colors with black background.
 PRINT_GREEN = "\033[1;32;40m"
 PRINT_RED = "\033[1;31;40m"
 PRINT_CYAN = "\033[1;36;40m"
 
+
+# Functions below is used for printing with the specified color.
+def print_green(t):
+    print(PRINT_GREEN)
+    print(t)
+
+def print_red(t):
+    print(PRINT_RED)
+    print(t)
+
+def print_cyan(t):
+    print(PRINT_CYAN)
+    print(t)
+
+
+
+# The game class.
 class Game():
     def __init__(self):
         #Get a new shuffled deck of cards.
@@ -34,11 +52,15 @@ class Game():
 
     #Shows the current cards of the hand
     def show_current_cards(self, who, hand):
-        print(who + " currently have theese cards:")
         cards_in_hand = ""
         for card in hand:
             cards_in_hand += card.show() + "\n"
-        print(cards_in_hand)
+        if who=="Player":
+            print_green(who + " currently have theese cards:")
+            print_green(cards_in_hand)
+        else:
+            print_red(who + " currently have theese cards:")
+            print_red(cards_in_hand)
 
     #Asks the computer for a card
     #Method functionality should be moved to InTheLakePlayers module
@@ -49,7 +71,7 @@ class Game():
             for cards in self.deck.valid_cards:
                 if cards_asked_for.lower()==cards.split(' ')[1]:
                     valid_card = True
-            print(who + " asked for " + cards_asked_for)
+            print_green(who + " asked for " + cards_asked_for)
         self.check_if_oponent_has_card(cards_asked_for)
 
 
@@ -66,7 +88,7 @@ class Game():
                 for card in cards:
                     self.player.cards.append(card)
         else:
-            print("Card is in the lake!")
+            print_cyan("Card is in the lake!")
             self.player.cards.append(self.draw_card_from_deck())
 
     #Oponent asks for a card
@@ -77,7 +99,7 @@ class Game():
             self.game_running = False
             return
         card_to_ask_for = cards_to_ask_for[0].show().split(' ')[1]
-        print("Oponent asks for: " + card_to_ask_for)
+        print_red("Oponent asks for: " + card_to_ask_for)
         self.check_if_player_has_card(card_to_ask_for)
         
     #Method-functionality should be moved to player-class
@@ -88,19 +110,17 @@ class Game():
                 for card in cards:
                     self.oponent.cards.append(card)
         else:
-            print("Card is in the lake!")
+            print_cyan("Card is in the lake!")
             self.oponent.cards.append(self.draw_card_from_deck())
 
 
     #Run the game.
     def main_loop(self):
         turn = 1
-        print(PRINT_CYAN)
-        print("\n****** GAME STARTS ******\n")
+        print_cyan("\n****** GAME STARTS ******\n")
         while(not self.deck.empty() and self.game_running is True):
-            print("\n****** NEW TURN ******\n")
-            print("TURN " + str(turn))
-            print(PRINT_GREEN)
+            print_cyan("\n****** NEW TURN ******\n")
+            print_cyan("TURN " + str(turn))
             self.show_current_cards("Player", self.player.get_hand())
             #self.show_current_cards("Oponent",self.oponent.get_hand())
             
@@ -109,15 +129,14 @@ class Game():
                 self.player.sort_cards()
                 self.oponent.sort_cards()
                 self.referee.count_points()
-            print(PRINT_RED)
-            print("******")
+            print_red("******")
             #input("Now it is oponents turn, press enter to continue.")
             #self.show_current_cards("Player",self.player.get_hand())
             #self.show_current_cards("Oponent",self.oponent.get_hand())
             
             if self.deck.empty() is False:
                 self.oponent_ask_for_card()
-                print(PRINT_CYAN)
+                print_cyan("")
                 input("Oponent is done, press enter to continue in to next turn.")
                 self.player.sort_cards()
                 self.oponent.sort_cards()
@@ -127,9 +146,9 @@ class Game():
 
 
 
-
+# Referee class, keeping track of points.
 class Referee():
-    def __init__(self,player=None, oponent=None):
+    def __init__(self, player=None, oponent=None):
         self.player = player
         self.oponent = oponent
         self.player_points = 0
@@ -140,14 +159,14 @@ class Referee():
         oponent_sorted_hand = self.oponent.get_sorted_hand()
         for cards in player_sorted_hand:
             if len(cards)==4:
-                print("POINTS TO PLAYER!")
+                print_cyan("POINTS TO PLAYER!")
                 self.player_points += 1
                 self.player.sorted_hand.remove(cards)
                 for card in cards:
                     self.player.cards.remove(card)
         for cards in oponent_sorted_hand:
             if len(cards)==4:
-                print("POINTS TO OPONENT!")
+                print_cyan("POINTS TO OPONENT!")
                 self.oponent_points+=1
                 self.oponent.sorted_hand.remove(cards)
                 for card in cards:
@@ -156,7 +175,6 @@ class Referee():
        
 
     def declare_winner(self):
-        print(PRINT_CYAN)
         text = "The winnes is... "
         if self.player_points > self.oponent_points:
             text += "Player! \nPlayer: " +  str(self.player_points) + " Oponent: " + str(self.oponent_points)
@@ -165,6 +183,6 @@ class Referee():
             text += "Oponent! \nPlayer: "  +  str(self.player_points) + " Oponent:" + str(self.oponent_points)
         else:
             text = "It's a draw!\n Player gets: " + str(self.player_points) + " Oponent gets: " + str(self.oponent_points)
-        print("Referee: " + text)
+        print_cyan("Referee: " + text)
 
 

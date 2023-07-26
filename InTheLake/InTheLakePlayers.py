@@ -48,7 +48,7 @@ class Player():
         return cards_to_give
 
 
-#OponentAI, needs to get smarter and more random.
+#OponentAI
 class OponentAI(Player):
     def __init__(self,cards=[]):
          Player.__init__(self, cards)
