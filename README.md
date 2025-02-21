@@ -11,7 +11,7 @@ And the game will be run in the terminal, it may for example look something like
 
 ![Game start](./images/game_start.png)
 
-Type what kind of card you would like to get from your oponent, for example `six`.
+Type what kind of card you would like to get from your oponent, for example `six` and enter.
 
 ![Writing six](./images/wrote_six.png)
 
